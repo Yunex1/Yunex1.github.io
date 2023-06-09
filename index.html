@@ -47,6 +47,273 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Spark(Yarn)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Spark(Yarn)/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T04:41:48.191Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Spark-On-YARN-环境搭建部署"><a href="#Spark-On-YARN-环境搭建部署" class="headerlink" title="Spark On YARN 环境搭建部署"></a>Spark On YARN 环境搭建部署</h1><h2 id="配置spark-env-sh"><a href="#配置spark-env-sh" class="headerlink" title="配置spark-env.sh"></a>配置spark-env.sh</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cd /export/server/spark/conf</span><br><span class="line">Vi spark-env.sh</span><br></pre></td></tr></table></figure>
+<p>加入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">## 设置JAVA安装目录</span><br><span class="line">JAVA_HOME=/export/server/jdk</span><br><span class="line"></span><br><span class="line">## HADOOP软件配置文件目录，读取HDFS上文件和运行YARN集群</span><br><span class="line">HADOOP_CONF_DIR=/export/server/hadoop/etc/hadoop</span><br><span class="line">YARN_CONF_DIR=/export/server/hadoop/etc/hadoop</span><br><span class="line"></span><br><span class="line">## 指定spark老大Master的IP和提交任务的通信端口</span><br><span class="line"># 告知Spark的master运行在哪个机器上</span><br><span class="line"></span><br><span class="line"># 告知sparkmaster的通讯端口</span><br><span class="line">export SPARK_MASTER_PORT=7077</span><br><span class="line"># 告知spark master的 webui端口</span><br><span class="line">SPARK_MASTER_WEBUI_PORT=8080</span><br><span class="line"></span><br><span class="line"># worker cpu可用核数</span><br><span class="line">SPARK_WORKER_CORES=1</span><br><span class="line"># worker可用内存</span><br><span class="line">SPARK_WORKER_MEMORY=1g</span><br><span class="line"># worker的工作通讯地址</span><br><span class="line">SPARK_WORKER_PORT=7078</span><br><span class="line"># worker的 webui地址</span><br><span class="line">SPARK_WORKER_WEBUI_PORT=8081</span><br><span class="line"></span><br><span class="line">## 设置历史服务器</span><br><span class="line"># 配置的意思是  将spark程序运行的历史日志 存到hdfs的/sparklog文件夹中</span><br><span class="line">SPARK_HISTORY_OPTS=&quot;-Dspark.history.fs.logDirectory=hdfs://node1:8020/sparklog/ -Dspark.history.fs.cleaner.enabled=true&quot;</span><br><span class="line">SPARK_DAEMON_JAVA_OPTS=&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=node1:2181,node2:2181,node3:2181 -Dspark.deploy.zookeeper.dir=/spark-ha&quot;</span><br><span class="line"># spark.deploy.recoveryMode 指定HA模式 基于Zookeeper实现</span><br><span class="line"># 指定Zookeeper的连接地址</span><br><span class="line"># 指定在Zookeeper中注册临时节点的路径</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkha/1.png" alt="图 1"></p>
+<h2 id="连接YARN"><a href="#连接YARN" class="headerlink" title="连接YARN"></a>连接YARN</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/pyspark --master yarn --deploy-mode client|cluster</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkha/2.png" alt="图 2"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/spark-shell --master yarn --deploy-mode client|cluster</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkha/3.png" alt="图 3"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Spark(Yarn)/" data-id="clio4n1zw0003s0vf4a9herro" data-title="Spark(Yarn)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Spark(HA)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Spark(HA)/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T04:41:48.189Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Spark(HA)/">Spark(HA)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-首先配置spark-env-sh"><a href="#1-首先配置spark-env-sh" class="headerlink" title="1.首先配置spark-env.sh"></a>1.首先配置spark-env.sh</h2><p> 删除SPARK_MASTER_HOST&#x3D;node1这么操作的含义是不指定Master方便我们后续切换Master并在后面增加下面内容指定zookeeper</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_DAEMON_JAVA_OPTS=&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=node1:2181,node2:2181,node3:2181 -Dspark.deploy.zookeeper.dir=/spark-ha&quot;</span><br><span class="line"></span><br><span class="line"># spark.deploy.recoveryMode 指定HA模式 基于Zookeeper实现</span><br><span class="line"># 指定Zookeeper的连接地址</span><br><span class="line"># 指定在Zookeeper中注册临时节点的路径</span><br><span class="line"># 然后将spark分发到node2和node3中</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkha/1.png" alt="图"></p>
+<h2 id="2-测试Spark-StandAloneHA"><a href="#2-测试Spark-StandAloneHA" class="headerlink" title="2.测试Spark StandAloneHA"></a>2.测试Spark StandAloneHA</h2><p>先在node1上启动一个master和全部的woiker</p>
+<p>然后在node2上启动一个备用的maste</p>
+<p><img src="/../sparkha/2.png" alt="图"><br><img src="/../sparkha/3.png" alt="图"></p>
+<p>如图node1的状态是alive node2的状态是standy</p>
+<p>提交一个任务到node1上的spark</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/spark-submit --master spark://node1:7077 /export/server/spark/examples/src/main/python/pi.py 1000</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkha/4.png" alt="图"></p>
+<p>然后另起一台node1杀死node1的master<br><img src="/../sparkha/5.png" alt="图"></p>
+<p>可以看到断开连接，等待一段时间。<br><img src="/../sparkha/6.png" alt="图"></p>
+<p>发现程序执行成功代表我们的HA模式搭建成功。在node1的master出现问题崩溃掉的时候会自动切换到node2的备用master上使我们的程序不会崩溃。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Spark(HA)/" data-id="clio4n1zw0004s0vfeujk69yw" data-title="Spark(HA)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Spark(stand-alone)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Spark(stand-alone)/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T04:41:48.188Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Spark(stand-alone)/">Spark(stand-alone)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Spark-StandAlone环境部署"><a href="#Spark-StandAlone环境部署" class="headerlink" title="Spark StandAlone环境部署"></a>Spark StandAlone环境部署</h2><p>进入到spark的配置文件目录中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd  spark/conf</span><br></pre></td></tr></table></figure>
+<p>配置workers文件</p>
+<p>改名, 去掉后面的.template后缀</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv workers.template workers</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/1.png" alt="图 1"></p>
+<p>编辑worker文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim workers</span><br></pre></td></tr></table></figure>
+<p>将里面的localhost删除, 添加<br>node1<br>node2<br>node3<br>到workers文件内<br><img src="/../sparkalone/2.png" alt="图 2"></p>
+<h2 id="配置spark-env-sh文件"><a href="#配置spark-env-sh文件" class="headerlink" title="配置spark-env.sh文件"></a>配置spark-env.sh文件</h2><h3 id="1-改名"><a href="#1-改名" class="headerlink" title="1. 改名"></a>1. 改名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv spark-env.sh.template spark-env.sh</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/3.png" alt="图 3"></p>
+<h3 id="2-编辑spark-env-sh-在底部追加如下内容"><a href="#2-编辑spark-env-sh-在底部追加如下内容" class="headerlink" title="2. 编辑spark-env.sh, 在底部追加如下内容"></a>2. 编辑spark-env.sh, 在底部追加如下内容</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">## 设置JAVA安装目录</span><br><span class="line">JAVA_HOME=/export/server/jdk</span><br><span class="line"></span><br><span class="line">## HADOOP软件配置文件目录，读取HDFS上文件和运行YARN集群</span><br><span class="line">HADOOP_CONF_DIR=/export/server/hadoop/etc/hadoop</span><br><span class="line">YARN_CONF_DIR=/export/server/hadoop/etc/hadoop</span><br><span class="line"></span><br><span class="line">## 指定spark老大Master的IP和提交任务的通信端口</span><br><span class="line"># 告知Spark的master运行在哪个机器上</span><br><span class="line">export SPARK_MASTER_HOST=node1</span><br><span class="line"># 告知sparkmaster的通讯端口</span><br><span class="line">export SPARK_MASTER_PORT=7077</span><br><span class="line"># 告知spark master的 webui端口</span><br><span class="line">SPARK_MASTER_WEBUI_PORT=8080</span><br><span class="line"></span><br><span class="line"># worker cpu可用核数</span><br><span class="line">SPARK_WORKER_CORES=1</span><br><span class="line"># worker可用内存</span><br><span class="line">SPARK_WORKER_MEMORY=1g</span><br><span class="line"># worker的工作通讯地址</span><br><span class="line">SPARK_WORKER_PORT=7078</span><br><span class="line"># worker的 webui地址</span><br><span class="line">SPARK_WORKER_WEBUI_PORT=8081</span><br><span class="line"></span><br><span class="line">## 设置历史服务器</span><br><span class="line"># 配置的意思是  将spark程序运行的历史日志 存到hdfs的/sparklog文件夹中</span><br><span class="line">SPARK_HISTORY_OPTS=&quot;-Dspark.history.fs.logDirectory=hdfs://node1:8020/sparklog/ -Dspark.history.fs.cleaner.enabled=true&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/4.png" alt="图 4"></p>
+<h2 id="在HDFS上创建程序运行历史记录存放的文件夹"><a href="#在HDFS上创建程序运行历史记录存放的文件夹" class="headerlink" title="在HDFS上创建程序运行历史记录存放的文件夹"></a>在HDFS上创建程序运行历史记录存放的文件夹</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -mkdir /sparklog</span><br><span class="line">hadoop fs -chmod 777 /sparklog</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置spark-defaults-conf文件"><a href="#配置spark-defaults-conf文件" class="headerlink" title="配置spark-defaults.conf文件"></a>配置spark-defaults.conf文件</h2><h3 id="1-改名-1"><a href="#1-改名-1" class="headerlink" title="1. 改名"></a>1. 改名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv spark-defaults.conf.template spark-defaults.conf</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/5.png" alt="图 5"></p>
+<h3 id="2-修改内容"><a href="#2-修改内容" class="headerlink" title="2. 修改内容"></a>2. 修改内容</h3><p>开启spark的日期记录功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.eventLog.enabled 	true</span><br></pre></td></tr></table></figure>
+<p>设置spark日志记录的路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.eventLog.dir	 hdfs://node1:8020/sparklog/ </span><br></pre></td></tr></table></figure>
+<p>设置spark日志是否启动压缩</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.eventLog.compress 	true</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/6.png" alt="图 6"></p>
+<h2 id="配置log4j-properties-文件"><a href="#配置log4j-properties-文件" class="headerlink" title="配置log4j.properties 文件"></a>配置log4j.properties 文件</h2><p>改名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv log4j.properties.template log4j.properties</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/7.png" alt="图 7"></p>
+<p>将Spark安装文件夹  分发到其它的服务器上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r spark-3.1.2-bin-hadoop3.2 node2:/export/server/</span><br><span class="line">scp -r spark-3.1.2-bin-hadoop3.2 node3:/export/server/</span><br></pre></td></tr></table></figure>
+<p>分别在node2，node3设置软连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /export/server/spark-3.1.2-bin-hadoop3.2 /export/server/spark</span><br></pre></td></tr></table></figure>
+<p>启动历史服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-history-server.sh</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/8.png" alt="图 8"></p>
+<h2 id="启动Spark的Master和Worker进程"><a href="#启动Spark的Master和Worker进程" class="headerlink" title="启动Spark的Master和Worker进程"></a>启动Spark的Master和Worker进程</h2><p>启动全部master和worker</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-all.sh</span><br></pre></td></tr></table></figure>
+<p>#或者可以一个个启动:<br>启动当前机器的master</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-master.sh</span><br></pre></td></tr></table></figure>
+<p>启动当前机器的worker</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-worker.sh</span><br></pre></td></tr></table></figure>
+<p>停止全部</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/stop-all.sh</span><br></pre></td></tr></table></figure>
+<p>停止当前机器的master</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/stop-master.sh</span><br></pre></td></tr></table></figure>
+<p>停止当前机器的worker</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/stop-worker.sh</span><br></pre></td></tr></table></figure>
+<p>查看Master的WEB UI<br><img src="/../sparkalone/9.png" alt="图 9"></p>
+<p>连接到StandAlone集群</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/pyspark --master spark://node1:7077</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparkalone/10.png" alt="图 10"></p>
+<p>查看历史服务器WEB UI</p>
+<p>输入node1:18080</p>
+<p><img src="/../sparkalone/11.png" alt="图 11"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Spark(stand-alone)/" data-id="clio4n1zx0006s0vf9mx75ckq" data-title="Spark(stand-alone)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Git" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Git/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T04:28:42.455Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Git/">git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>下载地址： <a target="_blank" rel="noopener" href="https://git-scm.com/download%EF%BC%8C%E9%80%89%E6%8B%A9Windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%BD%BD">https://git-scm.com/download，选择Windows操作系统下载</a></p>
+<p><img src="/../git/1.jpg" alt="图"></p>
+<p>安装过程中需要注册，填写用户名及邮箱</p>
+<p><img src="/../git/2.jpg" alt="图"></p>
+<p>注：安装完成后需要手动重启资源管理器或重启电脑。</p>
+<h2 id="Git初始化"><a href="#Git初始化" class="headerlink" title="Git初始化"></a>Git初始化</h2><p>初始化一个本地仓<br> 选择新建的git_test文件，右键单机，选择Git在这里创建版本库</p>
+<p> <img src="/../git/3.jpg" alt="图"><br> <img src="/../git/4.jpg" alt="图"><br> <img src="/../git/5.jpg" alt="图"></p>
+<p>操作后可以发现在git_test文件图标上出现了绿色的小勾，说明本地仓库创建成功，在进入该文件夹后还可以发现一个.git文件。此时，git初始化仓库就完成了。</p>
+<p><img src="/../git/6.jpg" alt="图"></p>
+<h2 id="概念即详解"><a href="#概念即详解" class="headerlink" title="概念即详解"></a>概念即详解</h2><p>图中有远程仓库、本地仓库、工作区以及暂存区。<br>本地仓库：是在开发人员自己电脑上的Git仓库,存放我们的代码。<br>远程仓库：是在远程服务器上的Git仓库，一般是上传至企业的代码总仓库。<br>工作区: 我们自己编写代码的区域。<br>暂存区: 在本地仓库中的一个特殊的文件叫做暂存区,用来临时存储我们即将要提交的文件。</p>
+<h2 id="Git的操作"><a href="#Git的操作" class="headerlink" title="Git的操作"></a>Git的操作</h2><p>Clone：克隆，就是将远程仓库复制到本地仓库。<br>Push：推送，就是将本地仓库代码上传到远程仓库。<br>Pull：拉取，就是将远程仓库代码下载到本地仓库，并将代码克隆到本地工作区。</p>
+<h2 id="Git下的文件存在的状态"><a href="#Git下的文件存在的状态" class="headerlink" title="Git下的文件存在的状态"></a>Git下的文件存在的状态</h2><p>1 untracked 未跟踪: 比如新建的文件(此时文件夹上没有图标或者有一个”问号”)</p>
+<p>2 tracked 已跟踪：</p>
+<p>2.1 Staged 已暂存状态:添加 但未提交状态(此时文件夹上有一个”加号”)</p>
+<p>2.2 Unmodified 未修改状态:已提交(此时文件夹上有一个”对号”)</p>
+<p>2.3 Modified 已修改状态:修改了,但是还没有提交 (此时文件夹上有一个”红色感叹号”)</p>
+<p><img src="/../git/7.jpg" alt="图"><br><img src="/../git/8.jpg" alt="图"><br><img src="/../git/9.jpg" alt="图"></p>
+<p>如再次对文件进行修改，文件图表旁会出现一个红色的叹号。</p>
+<p><img src="/../git/10.jpg" alt="图"><br><img src="/../git/11.jpg" alt="图"><br><img src="/../git/12.jpg" alt="图"><br><img src="/../git/13.jpg" alt="图"></p>
+<p>回退至历史版本等操作</p>
+<p><img src="/../git/14.jpg" alt="图"><br><img src="/../git/15.jpg" alt="图"></p>
+<p>忽略提交</p>
+<p><img src="/../git/16.jpg" alt="图"><br><img src="/../git/17.jpg" alt="图"></p>
+<p>分支</p>
+<p>单线程开发</p>
+<p><img src="/../git/18.jpg" alt="图"><br><img src="/../git/19.jpg" alt="图"></p>
+<p>创建分支 </p>
+<p>主分支(master)</p>
+<p><img src="/../git/20.jpg" alt="图"></p>
+<p>查看分支</p>
+<p><img src="/../git/21.jpg" alt="图"></p>
+<p>切换分支</p>
+<p><img src="/../git/22.jpg" alt="图"></p>
+<p>分支的合并与删除</p>
+<p>切换到 主版本</p>
+<p>右键 合并即可将需求1 写的代码合并至主分支</p>
+<p><img src="/../git/23.jpg" alt="图"></p>
+<p>删除分支</p>
+<p><img src="/../git/24.jpg" alt="图"></p>
+<p>代码合并时会报错,我们叫做冲突。</p>
+<p><img src="/../git/25.jpg" alt="图"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Git/" data-id="clio4n1zj0000s0vf9d0u0xkc" data-title="git" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Docker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/06/09/Docker/" class="article-date">
@@ -70,14 +337,15 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="一-需要虚拟机联网，安装yum工具"><a href="#一-需要虚拟机联网，安装yum工具" class="headerlink" title="一.  需要虚拟机联网，安装yum工具"></a>一.  需要虚拟机联网，安装yum工具</h2><p><img src="/../Docker/1.png" alt="图 1"></p>
-<h2 id="二-配置网卡转发"><a href="#二-配置网卡转发" class="headerlink" title="二.	配置网卡转发"></a>二.	配置网卡转发</h2><h3 id="1-docker必须安装在centos7平台，内核版本不低于3-10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能"><a href="#1-docker必须安装在centos7平台，内核版本不低于3-10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能" class="headerlink" title="1.docker必须安装在centos7平台，内核版本不低于3.10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能"></a>1.docker必须安装在centos7平台，内核版本不低于3.10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能</h3><h3 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h3><p><img src="/../Docker/2.png" alt="图 2"></p>
+<h2 id="二-配置网卡转发"><a href="#二-配置网卡转发" class="headerlink" title="二.	配置网卡转发"></a>二.	配置网卡转发</h2><h3 id="1-docker必须安装在centos7平台，内核版本不低于3-10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能"><a href="#1-docker必须安装在centos7平台，内核版本不低于3-10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能" class="headerlink" title="1.docker必须安装在centos7平台，内核版本不低于3.10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能"></a>1.docker必须安装在centos7平台，内核版本不低于3.10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能</h3><p>写入<br><img src="/../Docker/2.png" alt="图 2"></p>
 <h3 id="2-重新加载内核参数"><a href="#2-重新加载内核参数" class="headerlink" title="2.重新加载内核参数"></a>2.重新加载内核参数</h3><p><img src="/../Docker/3.png" alt="图 3"></p>
 <h2 id="三-利用yum进行docker安装"><a href="#三-利用yum进行docker安装" class="headerlink" title="三.	利用yum进行docker安装"></a>三.	利用yum进行docker安装</h2><h3 id="提前配置好yum仓库"><a href="#提前配置好yum仓库" class="headerlink" title="提前配置好yum仓库"></a>提前配置好yum仓库</h3><h3 id="阿里云自带仓库-2-阿里云提供的docker专属repo仓库"><a href="#阿里云自带仓库-2-阿里云提供的docker专属repo仓库" class="headerlink" title="阿里云自带仓库 2.阿里云提供的docker专属repo仓库"></a>阿里云自带仓库 2.阿里云提供的docker专属repo仓库</h3><p><img src="/../Docker/4.png" alt="图 4"><br><img src="/../Docker/5.png" alt="图 5"></p>
 <h3 id="更新yum缓存"><a href="#更新yum缓存" class="headerlink" title="更新yum缓存"></a>更新yum缓存</h3><p><img src="/../Docker/6.png" alt="图 6"></p>
-<h3 id="可以直接yum安装docker了"><a href="#可以直接yum安装docker了" class="headerlink" title="可以直接yum安装docker了"></a>可以直接yum安装docker了</h3><h4 id="查看源中可用版本"><a href="#查看源中可用版本" class="headerlink" title="查看源中可用版本"></a>查看源中可用版本</h4><p><img src="/../Docker/7.png" alt="图 7"></p>
-<h4 id="yum的安装"><a href="#yum的安装" class="headerlink" title="yum的安装"></a>yum的安装</h4><p><img src="/../Docker/8.png" alt="图 8"><br><img src="/../Docker/9.png" alt="图 9"></p>
-<h4 id="查看docker版本，验证是否验证成功"><a href="#查看docker版本，验证是否验证成功" class="headerlink" title="查看docker版本，验证是否验证成功"></a>查看docker版本，验证是否验证成功</h4><p><img src="/../Docker/10.png" alt="图 10"></p>
-<h4 id="如果要卸载"><a href="#如果要卸载" class="headerlink" title="如果要卸载"></a>如果要卸载</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y docker-ce-xxx</span><br></pre></td></tr></table></figure>
+<h3 id="可以直接yum安装docker了"><a href="#可以直接yum安装docker了" class="headerlink" title="可以直接yum安装docker了"></a>可以直接yum安装docker了</h3><p>查看源中可用版本<br><img src="/../Docker/7.png" alt="图 7"></p>
+<p>yum的安装<br><img src="/../Docker/8.png" alt="图 8"><br><img src="/../Docker/9.png" alt="图 9"></p>
+<p>查看docker版本，验证是否验证成功<br><img src="/../Docker/10.png" alt="图 10"></p>
+<p>如果要卸载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y docker-ce-xxx</span><br></pre></td></tr></table></figure>
 
 <h2 id="四-配置镜像加速器"><a href="#四-配置镜像加速器" class="headerlink" title="四.	配置镜像加速器"></a>四.	配置镜像加速器</h2><h3 id="用于加速镜像文件下载-选用阿里云镜像站"><a href="#用于加速镜像文件下载-选用阿里云镜像站" class="headerlink" title="用于加速镜像文件下载,选用阿里云镜像站"></a>用于加速镜像文件下载,选用阿里云镜像站</h3><p><img src="/../Docker/11.png" alt="图 11"></p>
 <h2 id="五-启动docker"><a href="#五-启动docker" class="headerlink" title="五.	启动docker"></a>五.	启动docker</h2><h3 id="启动docker前，一定要关闭防火墙后！！"><a href="#启动docker前，一定要关闭防火墙后！！" class="headerlink" title="启动docker前，一定要关闭防火墙后！！"></a>启动docker前，一定要关闭防火墙后！！</h3><h3 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
@@ -86,13 +354,17 @@
 
 <h3 id="通过命令启动docker："><a href="#通过命令启动docker：" class="headerlink" title="通过命令启动docker："></a>通过命令启动docker：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#systemctl start docker  # 启动docker服务</span><br><span class="line">#systemctl stop docker  # 停止docker服务</span><br><span class="line">#systemctl restart docker  # 重启docker服务</span><br></pre></td></tr></table></figure>
 
-<h3 id="我们使用如下命令进行docker启动"><a href="#我们使用如下命令进行docker启动" class="headerlink" title="我们使用如下命令进行docker启动"></a>我们使用如下命令进行docker启动</h3><h4 id="docker配置文件重新加载"><a href="#docker配置文件重新加载" class="headerlink" title="docker配置文件重新加载"></a>docker配置文件重新加载</h4><p><img src="/../Docker/12.png" alt="图 12"></p>
-<h4 id="查看docker信息"><a href="#查看docker信息" class="headerlink" title="查看docker信息"></a>查看docker信息</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br><span class="line">docker ps</span><br><span class="line">docker images</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
+<h3 id="我们使用如下命令进行docker启动"><a href="#我们使用如下命令进行docker启动" class="headerlink" title="我们使用如下命令进行docker启动"></a>我们使用如下命令进行docker启动</h3><p>docker配置文件重新加载<br><img src="/../Docker/12.png" alt="图 12"></p>
+<p>查看docker信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br><span class="line">docker ps</span><br><span class="line">docker images</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
 <p><img src="/../Docker/13.png" alt="图 13"><br><img src="/../Docker/14.png" alt="图 14"><br><img src="/../Docker/15.png" alt="图 15"><br><img src="/../Docker/16.png" alt="图 16"></p>
-<h4 id="docker-client"><a href="#docker-client" class="headerlink" title="docker-client"></a>docker-client</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which docker</span><br></pre></td></tr></table></figure>
-<h4 id="docker-daemon"><a href="#docker-daemon" class="headerlink" title="docker daemon"></a>docker daemon</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux |grep docker</span><br></pre></td></tr></table></figure>
+<p>docker-client</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which docker</span><br></pre></td></tr></table></figure>
+<p>docker daemon</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux |grep docker</span><br></pre></td></tr></table></figure>
 <p><img src="/../Docker/17.png" alt="图 17"></p>
-<h4 id="containerd"><a href="#containerd" class="headerlink" title="containerd"></a>containerd</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep containerd</span><br></pre></td></tr></table></figure>
+<p>containerd</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep containerd</span><br></pre></td></tr></table></figure>
 <p><img src="/../Docker/18.png" alt="图 18"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status containerd</span><br></pre></td></tr></table></figure>
 <p><img src="/../Docker/19.png" alt="图 19"></p>
@@ -106,7 +378,10 @@
 <h3 id="5-再次查看镜像"><a href="#5-再次查看镜像" class="headerlink" title="5.再次查看镜像"></a>5.再次查看镜像</h3><p><img src="/../Docker/23.png" alt="图 23"></p>
 <h3 id="6-运行镜像，运行出具体内容，在容器中就跑着一个nginx服务"><a href="#6-运行镜像，运行出具体内容，在容器中就跑着一个nginx服务" class="headerlink" title="6.运行镜像，运行出具体内容，在容器中就跑着一个nginx服务"></a>6.运行镜像，运行出具体内容，在容器中就跑着一个nginx服务</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run 参数 镜像的名字/id</span><br></pre></td></tr></table></figure>
 
-<h4 id="d-后台运行容器"><a href="#d-后台运行容器" class="headerlink" title="-d 后台运行容器"></a>-d 后台运行容器</h4><h4 id="p-80-80-端口映射，宿主机端口：容器内端口，访问宿主机的80端口，也就访问到容器中的80端口"><a href="#p-80-80-端口映射，宿主机端口：容器内端口，访问宿主机的80端口，也就访问到容器中的80端口" class="headerlink" title="-p 80:80 端口映射，宿主机端口：容器内端口，访问宿主机的80端口，也就访问到容器中的80端口"></a>-p 80:80 端口映射，宿主机端口：容器内端口，访问宿主机的80端口，也就访问到容器中的80端口</h4><h4 id="返回一个容器的id"><a href="#返回一个容器的id" class="headerlink" title="返回一个容器的id"></a>返回一个容器的id</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:80 nginx</span><br></pre></td></tr></table></figure>
+<p>-d 后台运行容器</p>
+<p>-p 80:80 端口映射，宿主机端口：容器内端口，访问宿主机的80端口，也就访问到容器中的80端口</p>
+<p>返回一个容器的id</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:80 nginx</span><br></pre></td></tr></table></figure>
 <p><img src="/../Docker/24.png" alt="图 24"></p>
 <h3 id="7-查看容器是否在运行"><a href="#7-查看容器是否在运行" class="headerlink" title="7.查看容器是否在运行"></a>7.查看容器是否在运行</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
 <p><img src="/../Docker/25.png" alt="图 25"></p>
@@ -124,7 +399,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/Docker/" data-id="clio0ennr00006kvfgf571h75" data-title="Docker" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/Docker/" data-id="clio4n1zt0001s0vfcbi82880" data-title="Docker" class="article-share-link">Share</a>
       
       
       
@@ -158,23 +433,43 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="1-安装Python环境到windows上"><a href="#1-安装Python环境到windows上" class="headerlink" title="1.安装Python环境到windows上"></a>1.安装Python环境到windows上</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Windows系统配置Anaconda</span><br><span class="line">打开资料中提供的:Anaconda3-2021.05-Windows-x86_64.exe文件</span><br><span class="line">配置国内源加速网络下载</span><br><span class="line">打开C:\Users\用户名\.condarc文件</span><br><span class="line">将以下内容进行替换；</span><br><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
-<h1 id="2-安装Python环境需要安装到Linux"><a href="#2-安装Python环境需要安装到Linux" class="headerlink" title="2.安装Python环境需要安装到Linux"></a>2.安装Python环境需要安装到Linux</h1><h2 id="创建虚拟环境-pyspark-基于Python-3-8"><a href="#创建虚拟环境-pyspark-基于Python-3-8" class="headerlink" title="创建虚拟环境 pyspark, 基于Python 3.8"></a>创建虚拟环境 pyspark, 基于Python 3.8</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n pyspark python=3.8</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/1.png" alt="图 1"></p>
-<h2 id="换到虚拟环境内"><a href="#换到虚拟环境内" class="headerlink" title="换到虚拟环境内"></a>换到虚拟环境内</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate pyspark</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/2.png" alt="图 2"></p>
-<h2 id="在虚拟环境内安装包"><a href="#在虚拟环境内安装包" class="headerlink" title="在虚拟环境内安装包"></a>在虚拟环境内安装包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyhive pyspark jieba -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/3.png" alt="图 3"></p>
-<h1 id="3-解压下载的Spark安装包"><a href="#3-解压下载的Spark安装包" class="headerlink" title="3. 解压下载的Spark安装包"></a>3. 解压下载的Spark安装包</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/4.png" alt="图 4"></p>
-<h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#HADOOP_HOME</span><br><span class="line">export SPARK_HOME=/export/server/spark</span><br><span class="line"></span><br><span class="line">#PYSPARK_PYTHON</span><br><span class="line">export PYSPARK_PYTHON=/export/server/anaconda3/envs/pyspark/bin/python</span><br><span class="line"></span><br><span class="line">#HADOOP_CONF_DIR</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop</span><br><span class="line"></span><br><span class="line">#ZOOKEEPER_HOME</span><br><span class="line">export ZOOKEEPER_HOME=/export/server/zookeeper</span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/export/server/jdk1.8.0_2</span><br></pre></td></tr></table></figure>
-<h1 id="重置环境变量"><a href="#重置环境变量" class="headerlink" title="重置环境变量"></a>重置环境变量</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Source /etc/profile</span><br><span class="line">PYSPARK_PYTHON和 JAVA_HOME 需要同样配置在: `/root/.bashrc`中</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/5.png" alt="图 5"></p>
+        <h2 id="1-安装Python环境到windows上"><a href="#1-安装Python环境到windows上" class="headerlink" title="1.安装Python环境到windows上"></a>1.安装Python环境到windows上</h2><p>Windows系统配置Anaconda</p>
+<p>打开资料中提供的:Anaconda3-2021.05-Windows-x86_64.exe文件</p>
+<p>配置国内源加速网络下载</p>
+<p>打开C:\Users\用户名.condarc文件</p>
+<p>将以下内容进行替换；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
+<h2 id="2-安装Python环境需要安装到Linux"><a href="#2-安装Python环境需要安装到Linux" class="headerlink" title="2.安装Python环境需要安装到Linux"></a>2.安装Python环境需要安装到Linux</h2><p>创建虚拟环境 pyspark, 基于Python 3.8</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n pyspark python=3.8</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/1.png" alt="图 1"></p>
+<p>换到虚拟环境内</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate pyspark</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/2.png" alt="图 2"></p>
+<p>在虚拟环境内安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyhive pyspark jieba -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/3.png" alt="图 3"></p>
+<h2 id="3-解压下载的Spark安装包"><a href="#3-解压下载的Spark安装包" class="headerlink" title="3. 解压下载的Spark安装包"></a>3. 解压下载的Spark安装包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/4.png" alt="图 4"></p>
+<p>配置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#HADOOP_HOME</span><br><span class="line">export SPARK_HOME=/export/server/spark</span><br><span class="line"></span><br><span class="line">#PYSPARK_PYTHON</span><br><span class="line">export PYSPARK_PYTHON=/export/server/anaconda3/envs/pyspark/bin/python</span><br><span class="line"></span><br><span class="line">#HADOOP_CONF_DIR</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop</span><br><span class="line"></span><br><span class="line">#ZOOKEEPER_HOME</span><br><span class="line">export ZOOKEEPER_HOME=/export/server/zookeeper</span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/export/server/jdk1.8.0_2</span><br></pre></td></tr></table></figure>
+<p>重置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Source /etc/profile</span><br><span class="line">PYSPARK_PYTHON和 JAVA_HOME 需要同样配置在: `/root/.bashrc`中</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/5.png" alt="图 5"></p>
+<p>上传文件到Linux服务器中<br>解压文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/6.png" alt="图 6"></p>
+<p>设置软链接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /export/server/spark-3.2.0-bin-hadoop3.2 /export/server/spark</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/7.png" alt="图 7"></p>
+<p>进去pyspark<br><img src="/../sparklocal/8.png" alt="图 8"></p>
+<p>测试<br><img src="/../sparklocal/9.png" alt="图 9"></p>
+<p>打开服务器4040<br><img src="/../sparklocal/10.png" alt="图 10"></p>
+<p>Jps查看<br><img src="/../sparklocal/11.png" alt="图 11"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/Spark(local)/" data-id="clio0enny00026kvfcmq45wm4" data-title="Spark(local)" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/Spark(local)/" data-id="clio4n1zx0005s0vf8z11dn38" data-title="Spark(local)" class="article-share-link">Share</a>
       
       
       
@@ -210,9 +505,11 @@
       
         <h2 id="1、上传安装包-解压"><a href="#1、上传安装包-解压" class="headerlink" title="1、上传安装包 解压"></a>1、上传安装包 解压</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf apache-hive-3.1.2-bin.tar.gz</span><br><span class="line">ln -s apache-hive-3.1.2-bin hive</span><br></pre></td></tr></table></figure>
 <h2 id="2、解决Hive与hadoop之间guava版本差异"><a href="#2、解决Hive与hadoop之间guava版本差异" class="headerlink" title="2、解决Hive与hadoop之间guava版本差异"></a>2、解决Hive与hadoop之间guava版本差异</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/</span><br><span class="line">rm -rf lib/guava-19.0.jar</span><br><span class="line">cp /export/server/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar ./lib/</span><br></pre></td></tr></table></figure>
-<h2 id="3、修改配置文件"><a href="#3、修改配置文件" class="headerlink" title="3、修改配置文件"></a>3、修改配置文件</h2><h3 id="hive-env-sh："><a href="#hive-env-sh：" class="headerlink" title="hive-env.sh："></a>hive-env.sh：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/conf</span><br><span class="line">mv hive-env.sh.template hive-env.sh</span><br><span class="line"></span><br><span class="line">vim hive-env.sh</span><br><span class="line">export HADOOP_HOME=/export/server/hadoop</span><br><span class="line">export HIVE_CONF_DIR=/export/server/hive/conf</span><br><span class="line">export HIVE_AUX_JARS_PATH=/export/server/hive/lib</span><br></pre></td></tr></table></figure>
+<h2 id="3、修改配置文件"><a href="#3、修改配置文件" class="headerlink" title="3、修改配置文件"></a>3、修改配置文件</h2><p>hive-env.sh：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/conf</span><br><span class="line">mv hive-env.sh.template hive-env.sh</span><br><span class="line"></span><br><span class="line">vim hive-env.sh</span><br><span class="line">export HADOOP_HOME=/export/server/hadoop</span><br><span class="line">export HIVE_CONF_DIR=/export/server/hive/conf</span><br><span class="line">export HIVE_AUX_JARS_PATH=/export/server/hive/lib</span><br></pre></td></tr></table></figure>
 <p><img src="/../Hive/1.png" alt="图 1"></p>
-<h3 id="hive-site-xml："><a href="#hive-site-xml：" class="headerlink" title="hive-site.xml："></a>hive-site.xml：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">vim hive-site.xml</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">&lt;!-- 存储元数据mysql相关配置 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;jdbc:mysql://node1:3306/hive3?createDatabaseIfNotExist=true&amp;amp;useSSL=false&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;root&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;hadoop&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- H2S运行绑定host --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;node1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 远程模式部署metastore metastore地址 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.uris&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;thrift://node1:9083&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 关闭元数据存储授权  --&gt; </span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;false&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>hive-site.xml：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">vim hive-site.xml</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">&lt;!-- 存储元数据mysql相关配置 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;jdbc:mysql://node1:3306/hive3?createDatabaseIfNotExist=true&amp;amp;useSSL=false&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;root&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;hadoop&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- H2S运行绑定host --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;node1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 远程模式部署metastore metastore地址 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.uris&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;thrift://node1:9083&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 关闭元数据存储授权  --&gt; </span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;false&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
 <p><img src="/../Hive/2.png" alt="图 2"></p>
 <h2 id="4、上传mysql-jdbc驱动到hive安装包lib下"><a href="#4、上传mysql-jdbc驱动到hive安装包lib下" class="headerlink" title="4、上传mysql jdbc驱动到hive安装包lib下"></a>4、上传mysql jdbc驱动到hive安装包lib下</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql-connector-java-5.1.32.jar</span><br></pre></td></tr></table></figure>
 <h2 id="5、mysql-connector-java-5-1-32-jar"><a href="#5、mysql-connector-java-5-1-32-jar" class="headerlink" title="5、mysql-connector-java-5.1.32.jar"></a>5、mysql-connector-java-5.1.32.jar</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/</span><br><span class="line"></span><br><span class="line">bin/schematool -initSchema -dbType mysql -verbos</span><br><span class="line">#初始化成功会在mysql中创建74张表</span><br></pre></td></tr></table></figure>
@@ -229,15 +526,17 @@
 <p><img src="/../Hive/7.png" alt="图 7"></p>
 <h2 id="5、查询表t-user的记录总数"><a href="#5、查询表t-user的记录总数" class="headerlink" title="5、查询表t_user的记录总数"></a>5、查询表t_user的记录总数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from t_user;</span><br></pre></td></tr></table></figure>
 <p><img src="/../Hive/8.png" alt="图 8"></p>
-<h2 id="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"><a href="#6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）" class="headerlink" title="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"></a>6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）</h2><h3 id="（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中："><a href="#（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中：" class="headerlink" title="（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中："></a>（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table answer2 as </span><br><span class="line">select a.moviename as moviename,count(a.moviename) as total </span><br><span class="line">from t_movie a join t_rating b on a.movieid=b.movieid </span><br><span class="line">group by a.moviename </span><br><span class="line">order by total desc </span><br><span class="line">limit 10;</span><br></pre></td></tr></table></figure>
+<h2 id="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"><a href="#6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）" class="headerlink" title="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"></a>6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）</h2><p>（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table answer2 as </span><br><span class="line">select a.moviename as moviename,count(a.moviename) as total </span><br><span class="line">from t_movie a join t_rating b on a.movieid=b.movieid </span><br><span class="line">group by a.moviename </span><br><span class="line">order by total desc </span><br><span class="line">limit 10;</span><br></pre></td></tr></table></figure>
 
-<h3 id="（2）查询表answer2："><a href="#（2）查询表answer2：" class="headerlink" title="（2）查询表answer2："></a>（2）查询表answer2：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from answer2;</span><br></pre></td></tr></table></figure>
+<p>（2）查询表answer2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from answer2;</span><br></pre></td></tr></table></figure>
 <p><img src="/../Hive/9.png" alt="图 9"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/HIve/" data-id="clio0ennw00016kvf3u74g8rq" data-title="Hive" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/HIve/" data-id="clio4n1zv0002s0vffmui0chn" data-title="Hive" class="article-share-link">Share</a>
       
       
       
@@ -263,15 +562,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/09/Spark(HA)/">Spark(HA)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/09/Spark(stand-alone)/">Spark(stand-alone)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/09/Git/">git</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/09/Docker/">Docker</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(local)/">Spark(local)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/HIve/">Hive</a>
           </li>
         
       </ul>

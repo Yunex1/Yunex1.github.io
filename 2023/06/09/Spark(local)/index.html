@@ -67,23 +67,43 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="1-安装Python环境到windows上"><a href="#1-安装Python环境到windows上" class="headerlink" title="1.安装Python环境到windows上"></a>1.安装Python环境到windows上</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Windows系统配置Anaconda</span><br><span class="line">打开资料中提供的:Anaconda3-2021.05-Windows-x86_64.exe文件</span><br><span class="line">配置国内源加速网络下载</span><br><span class="line">打开C:\Users\用户名\.condarc文件</span><br><span class="line">将以下内容进行替换；</span><br><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
-<h1 id="2-安装Python环境需要安装到Linux"><a href="#2-安装Python环境需要安装到Linux" class="headerlink" title="2.安装Python环境需要安装到Linux"></a>2.安装Python环境需要安装到Linux</h1><h2 id="创建虚拟环境-pyspark-基于Python-3-8"><a href="#创建虚拟环境-pyspark-基于Python-3-8" class="headerlink" title="创建虚拟环境 pyspark, 基于Python 3.8"></a>创建虚拟环境 pyspark, 基于Python 3.8</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n pyspark python=3.8</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/1.png" alt="图 1"></p>
-<h2 id="换到虚拟环境内"><a href="#换到虚拟环境内" class="headerlink" title="换到虚拟环境内"></a>换到虚拟环境内</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate pyspark</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/2.png" alt="图 2"></p>
-<h2 id="在虚拟环境内安装包"><a href="#在虚拟环境内安装包" class="headerlink" title="在虚拟环境内安装包"></a>在虚拟环境内安装包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyhive pyspark jieba -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/3.png" alt="图 3"></p>
-<h1 id="3-解压下载的Spark安装包"><a href="#3-解压下载的Spark安装包" class="headerlink" title="3. 解压下载的Spark安装包"></a>3. 解压下载的Spark安装包</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/4.png" alt="图 4"></p>
-<h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#HADOOP_HOME</span><br><span class="line">export SPARK_HOME=/export/server/spark</span><br><span class="line"></span><br><span class="line">#PYSPARK_PYTHON</span><br><span class="line">export PYSPARK_PYTHON=/export/server/anaconda3/envs/pyspark/bin/python</span><br><span class="line"></span><br><span class="line">#HADOOP_CONF_DIR</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop</span><br><span class="line"></span><br><span class="line">#ZOOKEEPER_HOME</span><br><span class="line">export ZOOKEEPER_HOME=/export/server/zookeeper</span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/export/server/jdk1.8.0_2</span><br></pre></td></tr></table></figure>
-<h1 id="重置环境变量"><a href="#重置环境变量" class="headerlink" title="重置环境变量"></a>重置环境变量</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Source /etc/profile</span><br><span class="line">PYSPARK_PYTHON和 JAVA_HOME 需要同样配置在: `/root/.bashrc`中</span><br></pre></td></tr></table></figure>
-<p><img src="/../images2/5.png" alt="图 5"></p>
+        <h2 id="1-安装Python环境到windows上"><a href="#1-安装Python环境到windows上" class="headerlink" title="1.安装Python环境到windows上"></a>1.安装Python环境到windows上</h2><p>Windows系统配置Anaconda</p>
+<p>打开资料中提供的:Anaconda3-2021.05-Windows-x86_64.exe文件</p>
+<p>配置国内源加速网络下载</p>
+<p>打开C:\Users\用户名.condarc文件</p>
+<p>将以下内容进行替换；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
+<h2 id="2-安装Python环境需要安装到Linux"><a href="#2-安装Python环境需要安装到Linux" class="headerlink" title="2.安装Python环境需要安装到Linux"></a>2.安装Python环境需要安装到Linux</h2><p>创建虚拟环境 pyspark, 基于Python 3.8</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n pyspark python=3.8</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/1.png" alt="图 1"></p>
+<p>换到虚拟环境内</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate pyspark</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/2.png" alt="图 2"></p>
+<p>在虚拟环境内安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyhive pyspark jieba -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/3.png" alt="图 3"></p>
+<h2 id="3-解压下载的Spark安装包"><a href="#3-解压下载的Spark安装包" class="headerlink" title="3. 解压下载的Spark安装包"></a>3. 解压下载的Spark安装包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/4.png" alt="图 4"></p>
+<p>配置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#HADOOP_HOME</span><br><span class="line">export SPARK_HOME=/export/server/spark</span><br><span class="line"></span><br><span class="line">#PYSPARK_PYTHON</span><br><span class="line">export PYSPARK_PYTHON=/export/server/anaconda3/envs/pyspark/bin/python</span><br><span class="line"></span><br><span class="line">#HADOOP_CONF_DIR</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop</span><br><span class="line"></span><br><span class="line">#ZOOKEEPER_HOME</span><br><span class="line">export ZOOKEEPER_HOME=/export/server/zookeeper</span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/export/server/jdk1.8.0_2</span><br></pre></td></tr></table></figure>
+<p>重置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Source /etc/profile</span><br><span class="line">PYSPARK_PYTHON和 JAVA_HOME 需要同样配置在: `/root/.bashrc`中</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/5.png" alt="图 5"></p>
+<p>上传文件到Linux服务器中<br>解压文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/6.png" alt="图 6"></p>
+<p>设置软链接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /export/server/spark-3.2.0-bin-hadoop3.2 /export/server/spark</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/7.png" alt="图 7"></p>
+<p>进去pyspark<br><img src="/../sparklocal/8.png" alt="图 8"></p>
+<p>测试<br><img src="/../sparklocal/9.png" alt="图 9"></p>
+<p>打开服务器4040<br><img src="/../sparklocal/10.png" alt="图 10"></p>
+<p>Jps查看<br><img src="/../sparklocal/11.png" alt="图 11"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/Spark(local)/" data-id="clio0enny00026kvfcmq45wm4" data-title="Spark(local)" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/Spark(local)/" data-id="clio4n1zx0005s0vf8z11dn38" data-title="Spark(local)" class="article-share-link">Share</a>
       
       
       
@@ -127,15 +147,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/09/Spark(HA)/">Spark(HA)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/09/Spark(stand-alone)/">Spark(stand-alone)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/09/Git/">git</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/09/Docker/">Docker</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(local)/">Spark(local)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/HIve/">Hive</a>
           </li>
         
       </ul>
