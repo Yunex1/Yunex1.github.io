@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hexo</title>
+  <title>Hive | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -55,38 +55,48 @@
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Hive
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Hive的安装"><a href="#Hive的安装" class="headerlink" title="Hive的安装"></a>Hive的安装</h1><h2 id="1、上传安装包-解压"><a href="#1、上传安装包-解压" class="headerlink" title="1、上传安装包 解压"></a>1、上传安装包 解压</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf apache-hive-3.1.2-bin.tar.gz</span><br><span class="line">ln -s apache-hive-3.1.2-bin hive</span><br></pre></td></tr></table></figure>
+        <h2 id="1、上传安装包-解压"><a href="#1、上传安装包-解压" class="headerlink" title="1、上传安装包 解压"></a>1、上传安装包 解压</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf apache-hive-3.1.2-bin.tar.gz</span><br><span class="line">ln -s apache-hive-3.1.2-bin hive</span><br></pre></td></tr></table></figure>
 <h2 id="2、解决Hive与hadoop之间guava版本差异"><a href="#2、解决Hive与hadoop之间guava版本差异" class="headerlink" title="2、解决Hive与hadoop之间guava版本差异"></a>2、解决Hive与hadoop之间guava版本差异</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/</span><br><span class="line">rm -rf lib/guava-19.0.jar</span><br><span class="line">cp /export/server/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar ./lib/</span><br></pre></td></tr></table></figure>
 <h2 id="3、修改配置文件"><a href="#3、修改配置文件" class="headerlink" title="3、修改配置文件"></a>3、修改配置文件</h2><h3 id="hive-env-sh："><a href="#hive-env-sh：" class="headerlink" title="hive-env.sh："></a>hive-env.sh：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/conf</span><br><span class="line">mv hive-env.sh.template hive-env.sh</span><br><span class="line"></span><br><span class="line">vim hive-env.sh</span><br><span class="line">export HADOOP_HOME=/export/server/hadoop</span><br><span class="line">export HIVE_CONF_DIR=/export/server/hive/conf</span><br><span class="line">export HIVE_AUX_JARS_PATH=/export/server/hive/lib</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/1.png" alt="图 1"></p>
+<p><img src="/../Hive/1.png" alt="图 1"></p>
 <h3 id="hive-site-xml："><a href="#hive-site-xml：" class="headerlink" title="hive-site.xml："></a>hive-site.xml：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">vim hive-site.xml</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">&lt;!-- 存储元数据mysql相关配置 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;jdbc:mysql://node1:3306/hive3?createDatabaseIfNotExist=true&amp;amp;useSSL=false&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;root&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;</span><br><span class="line">	&lt;value&gt;hadoop&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- H2S运行绑定host --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;node1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 远程模式部署metastore metastore地址 --&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.uris&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;thrift://node1:9083&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 关闭元数据存储授权  --&gt; </span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;false&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/2.png" alt="图 2"></p>
+<p><img src="/../Hive/2.png" alt="图 2"></p>
 <h2 id="4、上传mysql-jdbc驱动到hive安装包lib下"><a href="#4、上传mysql-jdbc驱动到hive安装包lib下" class="headerlink" title="4、上传mysql jdbc驱动到hive安装包lib下"></a>4、上传mysql jdbc驱动到hive安装包lib下</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql-connector-java-5.1.32.jar</span><br></pre></td></tr></table></figure>
 <h2 id="5、mysql-connector-java-5-1-32-jar"><a href="#5、mysql-connector-java-5-1-32-jar" class="headerlink" title="5、mysql-connector-java-5.1.32.jar"></a>5、mysql-connector-java-5.1.32.jar</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /export/server/hive/</span><br><span class="line"></span><br><span class="line">bin/schematool -initSchema -dbType mysql -verbos</span><br><span class="line">#初始化成功会在mysql中创建74张表</span><br></pre></td></tr></table></figure>
 <h2 id="6、在hdfs创建hive存储目录（如存在则不用操作）"><a href="#6、在hdfs创建hive存储目录（如存在则不用操作）" class="headerlink" title="6、在hdfs创建hive存储目录（如存在则不用操作）"></a>6、在hdfs创建hive存储目录（如存在则不用操作）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -mkdir /tmp</span><br><span class="line">hadoop fs -mkdir -p /user/hive/warehouse</span><br><span class="line">hadoop fs -chmod g+w /tmp</span><br><span class="line">hadoop fs -chmod g+w /user/hive/warehouse</span><br></pre></td></tr></table></figure>
 <h2 id="7、启动hive"><a href="#7、启动hive" class="headerlink" title="7、启动hive"></a>7、启动hive</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/export/server/hive/bin/hive --service metastore</span><br><span class="line">/export/server/hive/bin/hive --service hiveserver2</span><br><span class="line">/export/server/hive/bin/beeline</span><br><span class="line">! connect jdbc:hive2://node2:10000</span><br><span class="line"></span><br><span class="line">cd /export/server/hive/bin/</span><br><span class="line">./hive</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/3.png" alt="图 3"></p>
+<p><img src="/../Hive/3.png" alt="图 3"></p>
 <h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><h2 id="1、创建一个数据仓库movie"><a href="#1、创建一个数据仓库movie" class="headerlink" title="1、创建一个数据仓库movie"></a>1、创建一个数据仓库movie</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create database movie;</span><br><span class="line">use movie;</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/4.png" alt="图 4"></p>
+<p><img src="/../Hive/4.png" alt="图 4"></p>
 <h2 id="2、创建t-user表及导入数据"><a href="#2、创建t-user表及导入数据" class="headerlink" title="2、创建t_user表及导入数据"></a>2、创建t_user表及导入数据</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table t_user(userid bigint,sex string,age int,occupation string,zipcode string)</span><br><span class="line"></span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;;</span><br><span class="line"></span><br><span class="line">load data local inpath &quot;/opt/datas/users.txt&quot; into table t_user;</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/5.png" alt="图 5"></p>
+<p><img src="/../Hive/5.png" alt="图 5"></p>
 <h2 id="3、创建t-movie表及导入数据"><a href="#3、创建t-movie表及导入数据" class="headerlink" title="3、创建t_movie表及导入数据"></a>3、创建t_movie表及导入数据</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table t_movie(movieid bigint,moviename string,movietype string) </span><br><span class="line"></span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;;</span><br><span class="line"></span><br><span class="line">load data local inpath &quot;/opt/datas/movies.txt&quot; into table t_movie;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/../images/6.png" alt="图 6"></p>
+<p><img src="/../Hive/6.png" alt="图 6"></p>
 <h2 id="4、创建表t-rating表及导入数据"><a href="#4、创建表t-rating表及导入数据" class="headerlink" title="4、创建表t_rating表及导入数据"></a>4、创建表t_rating表及导入数据</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table t_rating(userid bigint,movieid bigint,rate double,times string) </span><br><span class="line"></span><br><span class="line">row format delimited fields terminated by &#x27;\t&#x27;;</span><br><span class="line"></span><br><span class="line">load data local inpath &quot;/opt/datas/ratings.txt&quot; into table t_rating;</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/7.png" alt="图 7"></p>
+<p><img src="/../Hive/7.png" alt="图 7"></p>
 <h2 id="5、查询表t-user的记录总数"><a href="#5、查询表t-user的记录总数" class="headerlink" title="5、查询表t_user的记录总数"></a>5、查询表t_user的记录总数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from t_user;</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/8.png" alt="图 8"></p>
+<p><img src="/../Hive/8.png" alt="图 8"></p>
 <h2 id="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"><a href="#6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）" class="headerlink" title="6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）"></a>6、统计评分次数最多的10部电影，并给出评分次数（电影名、评分次数）</h2><h3 id="（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中："><a href="#（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中：" class="headerlink" title="（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中："></a>（1）按照电影名进行分组统计，求出每部电影的评分次数并按照评分次数降序排序，保存在表answer2中：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table answer2 as </span><br><span class="line">select a.moviename as moviename,count(a.moviename) as total </span><br><span class="line">from t_movie a join t_rating b on a.movieid=b.movieid </span><br><span class="line">group by a.moviename </span><br><span class="line">order by total desc </span><br><span class="line">limit 10;</span><br></pre></td></tr></table></figure>
 
 <h3 id="（2）查询表answer2："><a href="#（2）查询表answer2：" class="headerlink" title="（2）查询表answer2："></a>（2）查询表answer2：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from answer2;</span><br></pre></td></tr></table></figure>
-<p><img src="/../images/9.png" alt="图 9"></p>
+<p><img src="/../Hive/9.png" alt="图 9"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/HIve/" data-id="clinzjy2w00019cvf32vo30ba" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/HIve/" data-id="clio0ennw00016kvf3u74g8rq" data-title="Hive" class="article-share-link">Share</a>
       
       
       
@@ -96,20 +106,15 @@
     
 <nav id="article-nav">
   
-    <a href="/2023/06/09/2/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2023/06/09/Spark(local)/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          Spark(local)
         
       </div>
     </a>
   
-  
-    <a href="/2023/06/07/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
   
 </nav>
 
@@ -130,19 +135,15 @@
       <ul>
         
           <li>
-            <a href="/2023/06/09/Docker/">(no title)</a>
+            <a href="/2023/06/09/Docker/">Docker</a>
           </li>
         
           <li>
-            <a href="/2023/06/09/2/">(no title)</a>
+            <a href="/2023/06/09/Spark(local)/">Spark(local)</a>
           </li>
         
           <li>
-            <a href="/2023/06/09/HIve/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/07/hello-world/">Hello World</a>
+            <a href="/2023/06/09/HIve/">Hive</a>
           </li>
         
       </ul>
