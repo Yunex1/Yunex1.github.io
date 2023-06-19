@@ -67,11 +67,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Spark-On-YARN-环境搭建部署"><a href="#Spark-On-YARN-环境搭建部署" class="headerlink" title="Spark On YARN 环境搭建部署"></a>Spark On YARN 环境搭建部署</h1><h2 id="配置spark-env-sh"><a href="#配置spark-env-sh" class="headerlink" title="配置spark-env.sh"></a>配置spark-env.sh</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cd /export/server/spark/conf</span><br><span class="line">Vi spark-env.sh</span><br></pre></td></tr></table></figure>
+        <h1 id="Spark-On-YARN-环境搭建部署"><a href="#Spark-On-YARN-环境搭建部署" class="headerlink" title="Spark On YARN 环境搭建部署"></a>Spark On YARN 环境搭建部署</h1><h2 id="1、配置spark-env-sh"><a href="#1、配置spark-env-sh" class="headerlink" title="1、配置spark-env.sh"></a>1、配置spark-env.sh</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cd /export/server/spark/conf</span><br><span class="line">Vi spark-env.sh</span><br></pre></td></tr></table></figure>
 <p>加入以下内容</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">## 设置JAVA安装目录</span><br><span class="line">JAVA_HOME=/export/server/jdk</span><br><span class="line"></span><br><span class="line">## HADOOP软件配置文件目录，读取HDFS上文件和运行YARN集群</span><br><span class="line">HADOOP_CONF_DIR=/export/server/hadoop/etc/hadoop</span><br><span class="line">YARN_CONF_DIR=/export/server/hadoop/etc/hadoop</span><br><span class="line"></span><br><span class="line">## 指定spark老大Master的IP和提交任务的通信端口</span><br><span class="line"># 告知Spark的master运行在哪个机器上</span><br><span class="line"></span><br><span class="line"># 告知sparkmaster的通讯端口</span><br><span class="line">export SPARK_MASTER_PORT=7077</span><br><span class="line"># 告知spark master的 webui端口</span><br><span class="line">SPARK_MASTER_WEBUI_PORT=8080</span><br><span class="line"></span><br><span class="line"># worker cpu可用核数</span><br><span class="line">SPARK_WORKER_CORES=1</span><br><span class="line"># worker可用内存</span><br><span class="line">SPARK_WORKER_MEMORY=1g</span><br><span class="line"># worker的工作通讯地址</span><br><span class="line">SPARK_WORKER_PORT=7078</span><br><span class="line"># worker的 webui地址</span><br><span class="line">SPARK_WORKER_WEBUI_PORT=8081</span><br><span class="line"></span><br><span class="line">## 设置历史服务器</span><br><span class="line"># 配置的意思是  将spark程序运行的历史日志 存到hdfs的/sparklog文件夹中</span><br><span class="line">SPARK_HISTORY_OPTS=&quot;-Dspark.history.fs.logDirectory=hdfs://node1:8020/sparklog/ -Dspark.history.fs.cleaner.enabled=true&quot;</span><br><span class="line">SPARK_DAEMON_JAVA_OPTS=&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=node1:2181,node2:2181,node3:2181 -Dspark.deploy.zookeeper.dir=/spark-ha&quot;</span><br><span class="line"># spark.deploy.recoveryMode 指定HA模式 基于Zookeeper实现</span><br><span class="line"># 指定Zookeeper的连接地址</span><br><span class="line"># 指定在Zookeeper中注册临时节点的路径</span><br></pre></td></tr></table></figure>
 <p><img src="/../sparkha/1.png" alt="图 1"></p>
-<h2 id="连接YARN"><a href="#连接YARN" class="headerlink" title="连接YARN"></a>连接YARN</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/pyspark --master yarn --deploy-mode client|cluster</span><br></pre></td></tr></table></figure>
+<h2 id="2、连接YARN"><a href="#2、连接YARN" class="headerlink" title="2、连接YARN"></a>2、连接YARN</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/pyspark --master yarn --deploy-mode client|cluster</span><br></pre></td></tr></table></figure>
 <p><img src="/../sparkha/2.png" alt="图 2"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/spark-shell --master yarn --deploy-mode client|cluster</span><br></pre></td></tr></table></figure>
 <p><img src="/../sparkha/3.png" alt="图 3"></p>
@@ -79,7 +79,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/Spark(Yarn)/" data-id="clio4n1zw0003s0vf4a9herro" data-title="Spark(Yarn)" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/Spark(Yarn)/" data-id="clj2k5f250002l0vf0h4wccs9" data-title="Spark(Yarn)" class="article-share-link">Share</a>
       
       
       
@@ -88,6 +88,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2023/06/19/flume/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Flume
+        
+      </div>
+    </a>
   
   
     <a href="/2023/06/09/Spark(HA)/" id="article-nav-older" class="article-nav-link-wrap">
@@ -114,23 +123,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/19/zookeeper/">Zookeeper</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/kafka/">Kafka</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/sqoop/">Sqoop</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/19/flume/">Flume</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(HA)/">Spark(HA)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(stand-alone)/">Spark(stand-alone)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Git/">git</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Docker/">Docker</a>
           </li>
         
       </ul>
