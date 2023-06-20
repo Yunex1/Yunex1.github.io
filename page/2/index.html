@@ -47,6 +47,250 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Git" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Git/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T04:28:42.455Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Git/">Git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h2><p>下载地址： <a target="_blank" rel="noopener" href="https://git-scm.com/download%EF%BC%8C%E9%80%89%E6%8B%A9Windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%BD%BD">https://git-scm.com/download，选择Windows操作系统下载</a></p>
+<p><img src="/../git/1.jpg" alt="图"></p>
+<p>安装过程中需要注册，填写用户名及邮箱</p>
+<p><img src="/../git/2.jpg" alt="图"></p>
+<p>注：安装完成后需要手动重启资源管理器或重启电脑。</p>
+<h2 id="2、Git初始化"><a href="#2、Git初始化" class="headerlink" title="2、Git初始化"></a>2、Git初始化</h2><p>初始化一个本地仓</p>
+<p>选择新建的git_test文件，右键单机，选择Git在这里创建版本库</p>
+<p> <img src="/../git/3.jpg" alt="图"><br> <img src="/../git/4.jpg" alt="图"><br> <img src="/../git/5.jpg" alt="图"></p>
+<p>操作后可以发现在git_test文件图标上出现了绿色的小勾，说明本地仓库创建成功，在进入该文件夹后还可以发现一个.git文件。此时，git初始化仓库就完成了。</p>
+<p><img src="/../git/6.jpg" alt="图"></p>
+<h2 id="3、概念即详解"><a href="#3、概念即详解" class="headerlink" title="3、概念即详解"></a>3、概念即详解</h2><p>图中有远程仓库、本地仓库、工作区以及暂存区。<br>本地仓库：是在开发人员自己电脑上的Git仓库,存放我们的代码。<br>远程仓库：是在远程服务器上的Git仓库，一般是上传至企业的代码总仓库。<br>工作区: 我们自己编写代码的区域。<br>暂存区: 在本地仓库中的一个特殊的文件叫做暂存区,用来临时存储我们即将要提交的文件。</p>
+<h2 id="4、Git的操作"><a href="#4、Git的操作" class="headerlink" title="4、Git的操作"></a>4、Git的操作</h2><p>Clone：克隆，就是将远程仓库复制到本地仓库。<br>Push：推送，就是将本地仓库代码上传到远程仓库。<br>Pull：拉取，就是将远程仓库代码下载到本地仓库，并将代码克隆到本地工作区。</p>
+<h2 id="5、Git下的文件存在的状态"><a href="#5、Git下的文件存在的状态" class="headerlink" title="5、Git下的文件存在的状态"></a>5、Git下的文件存在的状态</h2><p>1、untracked 未跟踪: 比如新建的文件(此时文件夹上没有图标或者有一个”问号”)</p>
+<p>2、uracked 已跟踪:</p>
+<p>(1)Staged 已暂存状态:添加 但未提交状态(此时文件夹上有一个”加号”)</p>
+<p>(2)Unmodified 未修改状态:已提交(此时文件夹上有一个”对号”)</p>
+<p>(3)Modified 已修改状态:修改了,但是还没有提交 (此时文件夹上有一个”红色感叹号”)</p>
+<p><img src="/../git/7.jpg" alt="图"><br><img src="/../git/8.jpg" alt="图"><br><img src="/../git/9.jpg" alt="图"></p>
+<p>3、如再次对文件进行修改，文件图表旁会出现一个红色的叹号。</p>
+<p><img src="/../git/10.jpg" alt="图"><br><img src="/../git/11.jpg" alt="图"><br><img src="/../git/12.jpg" alt="图"><br><img src="/../git/13.jpg" alt="图"></p>
+<p>4、回退至历史版本等操作</p>
+<p><img src="/../git/14.jpg" alt="图"><br><img src="/../git/15.jpg" alt="图"></p>
+<p>5、忽略提交</p>
+<p><img src="/../git/16.jpg" alt="图"><br><img src="/../git/17.jpg" alt="图"></p>
+<p>6、分支</p>
+<p>单线程开发</p>
+<p><img src="/../git/18.jpg" alt="图"><br><img src="/../git/19.jpg" alt="图"></p>
+<p>7、创建分支 主分支(master)</p>
+<p><img src="/../git/20.jpg" alt="图"></p>
+<p>8、查看分支</p>
+<p><img src="/../git/21.jpg" alt="图"></p>
+<p>9、切换分支</p>
+<p><img src="/../git/22.jpg" alt="图"></p>
+<p>10、分支的合并与删除 切换到主版本 右键 合并即可将需求1写的代码合并至主分支</p>
+<p><img src="/../git/23.jpg" alt="图"></p>
+<p>11、删除分支</p>
+<p><img src="/../git/24.jpg" alt="图"></p>
+<p>12、代码合并时会报错,我们叫做冲突</p>
+<p><img src="/../git/25.jpg" alt="图"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Git/" data-id="clj3nft0o00016kvf3ns12fim" data-title="Git" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Docker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Docker/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T02:16:33.261Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Docker/">Docker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一-需要虚拟机联网，安装yum工具"><a href="#一-需要虚拟机联网，安装yum工具" class="headerlink" title="一.  需要虚拟机联网，安装yum工具"></a>一.  需要虚拟机联网，安装yum工具</h2><p><img src="/../Docker/1.png" alt="图 1"></p>
+<h2 id="二-配置网卡转发"><a href="#二-配置网卡转发" class="headerlink" title="二.	配置网卡转发"></a>二.	配置网卡转发</h2><h3 id="1-docker必须安装在centos7平台，内核版本不低于3-10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能"><a href="#1-docker必须安装在centos7平台，内核版本不低于3-10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能" class="headerlink" title="1.docker必须安装在centos7平台，内核版本不低于3.10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能"></a>1.docker必须安装在centos7平台，内核版本不低于3.10在centos平台运行docker可能会遇见些告警信息，修改内核配置参数，打开内核转发功能</h3><p>写入<br><img src="/../Docker/2.png" alt="图 2"></p>
+<h3 id="2-重新加载内核参数"><a href="#2-重新加载内核参数" class="headerlink" title="2.重新加载内核参数"></a>2.重新加载内核参数</h3><p><img src="/../Docker/3.png" alt="图 3"></p>
+<h2 id="三-利用yum进行docker安装"><a href="#三-利用yum进行docker安装" class="headerlink" title="三.	利用yum进行docker安装"></a>三.	利用yum进行docker安装</h2><h3 id="提前配置好yum仓库"><a href="#提前配置好yum仓库" class="headerlink" title="提前配置好yum仓库"></a>提前配置好yum仓库</h3><h3 id="阿里云自带仓库-2-阿里云提供的docker专属repo仓库"><a href="#阿里云自带仓库-2-阿里云提供的docker专属repo仓库" class="headerlink" title="阿里云自带仓库 2.阿里云提供的docker专属repo仓库"></a>阿里云自带仓库 2.阿里云提供的docker专属repo仓库</h3><p><img src="/../Docker/4.png" alt="图 4"><br><img src="/../Docker/5.png" alt="图 5"></p>
+<h3 id="更新yum缓存"><a href="#更新yum缓存" class="headerlink" title="更新yum缓存"></a>更新yum缓存</h3><p><img src="/../Docker/6.png" alt="图 6"></p>
+<h3 id="可以直接yum安装docker了"><a href="#可以直接yum安装docker了" class="headerlink" title="可以直接yum安装docker了"></a>可以直接yum安装docker了</h3><p>查看源中可用版本<br><img src="/../Docker/7.png" alt="图 7"></p>
+<p>yum的安装<br><img src="/../Docker/8.png" alt="图 8"><br><img src="/../Docker/9.png" alt="图 9"></p>
+<p>查看docker版本，验证是否验证成功<br><img src="/../Docker/10.png" alt="图 10"></p>
+<p>如果要卸载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove -y docker-ce-xxx</span><br></pre></td></tr></table></figure>
+
+<h2 id="四-配置镜像加速器"><a href="#四-配置镜像加速器" class="headerlink" title="四.	配置镜像加速器"></a>四.	配置镜像加速器</h2><h3 id="用于加速镜像文件下载-选用阿里云镜像站"><a href="#用于加速镜像文件下载-选用阿里云镜像站" class="headerlink" title="用于加速镜像文件下载,选用阿里云镜像站"></a>用于加速镜像文件下载,选用阿里云镜像站</h3><p><img src="/../Docker/11.png" alt="图 11"></p>
+<h2 id="五-启动docker"><a href="#五-启动docker" class="headerlink" title="五.	启动docker"></a>五.	启动docker</h2><h3 id="启动docker前，一定要关闭防火墙后！！"><a href="#启动docker前，一定要关闭防火墙后！！" class="headerlink" title="启动docker前，一定要关闭防火墙后！！"></a>启动docker前，一定要关闭防火墙后！！</h3><h3 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+
+<h3 id="禁止开机启动防火墙"><a href="#禁止开机启动防火墙" class="headerlink" title="禁止开机启动防火墙"></a>禁止开机启动防火墙</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过命令启动docker："><a href="#通过命令启动docker：" class="headerlink" title="通过命令启动docker："></a>通过命令启动docker：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#systemctl start docker  # 启动docker服务</span><br><span class="line">#systemctl stop docker  # 停止docker服务</span><br><span class="line">#systemctl restart docker  # 重启docker服务</span><br></pre></td></tr></table></figure>
+
+<h3 id="我们使用如下命令进行docker启动"><a href="#我们使用如下命令进行docker启动" class="headerlink" title="我们使用如下命令进行docker启动"></a>我们使用如下命令进行docker启动</h3><p>docker配置文件重新加载<br><img src="/../Docker/12.png" alt="图 12"></p>
+<p>查看docker信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br><span class="line">docker ps</span><br><span class="line">docker images</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/13.png" alt="图 13"><br><img src="/../Docker/14.png" alt="图 14"><br><img src="/../Docker/15.png" alt="图 15"><br><img src="/../Docker/16.png" alt="图 16"></p>
+<p>docker-client</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which docker</span><br></pre></td></tr></table></figure>
+<p>docker daemon</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux |grep docker</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/17.png" alt="图 17"></p>
+<p>containerd</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep containerd</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/18.png" alt="图 18"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status containerd</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/19.png" alt="图 19"></p>
+<h2 id="Docker初体验"><a href="#Docker初体验" class="headerlink" title="Docker初体验"></a>Docker初体验</h2><h3 id="1-查看本地的docker镜像有哪些"><a href="#1-查看本地的docker镜像有哪些" class="headerlink" title="1.查看本地的docker镜像有哪些"></a>1.查看本地的docker镜像有哪些</h3><p><img src="/../Docker/20.png" alt="图 20"></p>
+<h3 id="2-可选择删除旧版本"><a href="#2-可选择删除旧版本" class="headerlink" title="2.可选择删除旧版本"></a>2.可选择删除旧版本</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 镜像id</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-搜索一下远程仓库中的镜像文件是否存在"><a href="#3-搜索一下远程仓库中的镜像文件是否存在" class="headerlink" title="3.搜索一下远程仓库中的镜像文件是否存在"></a>3.搜索一下远程仓库中的镜像文件是否存在</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/21.png" alt="图 21"></p>
+<h3 id="4-拉取，下载镜像"><a href="#4-拉取，下载镜像" class="headerlink" title="4.拉取，下载镜像"></a>4.拉取，下载镜像</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/22.png" alt="图 22"></p>
+<h3 id="5-再次查看镜像"><a href="#5-再次查看镜像" class="headerlink" title="5.再次查看镜像"></a>5.再次查看镜像</h3><p><img src="/../Docker/23.png" alt="图 23"></p>
+<h3 id="6-运行镜像，运行出具体内容，在容器中就跑着一个nginx服务"><a href="#6-运行镜像，运行出具体内容，在容器中就跑着一个nginx服务" class="headerlink" title="6.运行镜像，运行出具体内容，在容器中就跑着一个nginx服务"></a>6.运行镜像，运行出具体内容，在容器中就跑着一个nginx服务</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run 参数 镜像的名字/id</span><br></pre></td></tr></table></figure>
+
+<p>-d 后台运行容器</p>
+<p>-p 80:80 端口映射，宿主机端口：容器内端口，访问宿主机的80端口，也就访问到容器中的80端口</p>
+<p>返回一个容器的id</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:80 nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/24.png" alt="图 24"></p>
+<h3 id="7-查看容器是否在运行"><a href="#7-查看容器是否在运行" class="headerlink" title="7.查看容器是否在运行"></a>7.查看容器是否在运行</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/25.png" alt="图 25"></p>
+<h3 id="8-访问网站"><a href="#8-访问网站" class="headerlink" title="8.访问网站"></a>8.访问网站</h3><p><img src="/../Docker/26.png" alt="图 26"></p>
+<h3 id="9-停止容器"><a href="#9-停止容器" class="headerlink" title="9.停止容器"></a>9.停止容器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop 容器id</span><br></pre></td></tr></table></figure>
+<p><img src="/../Docker/27.png" alt="图 27"></p>
+<h3 id="10-恢复容器"><a href="#10-恢复容器" class="headerlink" title="10.恢复容器"></a>10.恢复容器</h3><p><img src="/../Docker/28.png" alt="图 28"></p>
+<h2 id="用docker切换不同发行版本，内核都为宿主机内核"><a href="#用docker切换不同发行版本，内核都为宿主机内核" class="headerlink" title="用docker切换不同发行版本，内核都为宿主机内核"></a>用docker切换不同发行版本，内核都为宿主机内核</h2><h3 id="1-利用docker获取不同的发行版镜像"><a href="#1-利用docker获取不同的发行版镜像" class="headerlink" title="1.利用docker获取不同的发行版镜像"></a>1.利用docker获取不同的发行版镜像</h3><p><img src="/../Docker/29.png" alt="图 29"><br><img src="/../Docker/30.png" alt="图 30"></p>
+<h3 id="2-确认当前宿主机的发行版"><a href="#2-确认当前宿主机的发行版" class="headerlink" title="2.确认当前宿主机的发行版"></a>2.确认当前宿主机的发行版</h3><p><img src="/../Docker/31.png" alt="图 31"></p>
+<h3 id="3-运行centos-7-8-2003发行版本"><a href="#3-运行centos-7-8-2003发行版本" class="headerlink" title="3.运行centos:7.8.2003发行版本"></a>3.运行centos:7.8.2003发行版本</h3><p>运行容器，且进入容器内部</p>
+<p>参数解释，-i 交互式命令操作 -t 开启一个终端 bash 进入容器后执行的命令<br><img src="/../Docker/32.png" alt="图 32"></p>
+<p>一个完整的系统，是由linux的内核+发行版，才组成了一个可以使用的完整的系统</p>
+<p>利用docker容器，可以获取不同的发行版镜像，然后基于该镜像，运行出各种容器去使用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Docker/" data-id="clj3nft0d00006kvf2t1m9b65" data-title="Docker" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Spark(local)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/06/09/Spark(local)/" class="article-date">
+  <time class="dt-published" datetime="2023-06-09T01:45:14.380Z" itemprop="datePublished">2023-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/09/Spark(local)/">Spark(local)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-安装Python环境到windows上"><a href="#1-安装Python环境到windows上" class="headerlink" title="1.安装Python环境到windows上"></a>1.安装Python环境到windows上</h2><p>Windows系统配置Anaconda</p>
+<p>打开资料中提供的:Anaconda3-2021.05-Windows-x86_64.exe文件</p>
+<p>配置国内源加速网络下载</p>
+<p>打开C:\Users\用户名.condarc文件</p>
+<p>将以下内容进行替换；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br><span class="line">default_channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2</span><br><span class="line">custom_channels:</span><br><span class="line">  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br><span class="line">  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud</span><br></pre></td></tr></table></figure>
+<h2 id="2-安装Python环境需要安装到Linux"><a href="#2-安装Python环境需要安装到Linux" class="headerlink" title="2.安装Python环境需要安装到Linux"></a>2.安装Python环境需要安装到Linux</h2><p>创建虚拟环境 pyspark, 基于Python 3.8</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n pyspark python=3.8</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/1.png" alt="图 1"></p>
+<p>换到虚拟环境内</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate pyspark</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/2.png" alt="图 2"></p>
+<p>在虚拟环境内安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyhive pyspark jieba -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/3.png" alt="图 3"></p>
+<h2 id="3-解压下载的Spark安装包"><a href="#3-解压下载的Spark安装包" class="headerlink" title="3. 解压下载的Spark安装包"></a>3. 解压下载的Spark安装包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/4.png" alt="图 4"></p>
+<p>配置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#HADOOP_HOME</span><br><span class="line">export SPARK_HOME=/export/server/spark</span><br><span class="line"></span><br><span class="line">#PYSPARK_PYTHON</span><br><span class="line">export PYSPARK_PYTHON=/export/server/anaconda3/envs/pyspark/bin/python</span><br><span class="line"></span><br><span class="line">#HADOOP_CONF_DIR</span><br><span class="line">export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop</span><br><span class="line"></span><br><span class="line">#ZOOKEEPER_HOME</span><br><span class="line">export ZOOKEEPER_HOME=/export/server/zookeeper</span><br><span class="line">export PATH=$PATH:$ZOOKEEPER_HOME/bin</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/export/server/jdk1.8.0_2</span><br></pre></td></tr></table></figure>
+<p>重置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Source /etc/profile</span><br><span class="line">PYSPARK_PYTHON和 JAVA_HOME 需要同样配置在: `/root/.bashrc`中</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/5.png" alt="图 5"></p>
+<p>上传文件到Linux服务器中<br>解压文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.2.0-bin-hadoop3.2.tgz -C /export/server/</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/6.png" alt="图 6"></p>
+<p>设置软链接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /export/server/spark-3.2.0-bin-hadoop3.2 /export/server/spark</span><br></pre></td></tr></table></figure>
+<p><img src="/../sparklocal/7.png" alt="图 7"></p>
+<p>进去pyspark<br><img src="/../sparklocal/8.png" alt="图 8"></p>
+<p>测试<br><img src="/../sparklocal/9.png" alt="图 9"></p>
+<p>打开服务器4040<br><img src="/../sparklocal/10.png" alt="图 10"></p>
+<p>Jps查看<br><img src="/../sparklocal/11.png" alt="图 11"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/09/Spark(local)/" data-id="clj3nft0t00076kvfgikh702m" data-title="Spark(local)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-HIve" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/06/09/HIve/" class="article-date">
@@ -102,7 +346,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/09/HIve/" data-id="clj2k5f260003l0vfaz6n9f7c" data-title="Hive" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/09/HIve/" data-id="clj3nft0r00036kvfehqk7009" data-title="Hive" class="article-share-link">Share</a>
       
       
       
@@ -133,23 +377,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Kafka环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/">Kafka命令行操作</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/">kafka-eagle各项功能</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/19/zookeeper/">Zookeeper</a>
           </li>
         
           <li>
-            <a href="/2023/06/19/kafka/">Kafka</a>
-          </li>
-        
-          <li>
             <a href="/2023/06/19/sqoop/">Sqoop</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/19/flume/">Flume</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
           </li>
         
       </ul>

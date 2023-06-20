@@ -48,7 +48,7 @@
         <section id="main"><article id="post-kafka" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/06/19/kafka/" class="article-date">
-  <time class="dt-published" datetime="2023-06-19T07:49:14.563Z" itemprop="datePublished">2023-06-19</time>
+  <time class="dt-published" datetime="2023-06-19T07:54:32.942Z" itemprop="datePublished">2023-06-19</time>
 </a>
     
   </div>
@@ -99,8 +99,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Scp /etc/profile root@node2: /etc/profile</span><br><span class="line">Scp /etc/profile root@node3: /etc/profile</span><br></pre></td></tr></table></figure>
 
 <p>分别在node2和node3上修改配置文件</p>
-<p>broker.id&#x3D;1<br><img src="/../kafka/4.png" alt="图 4"></p>
-<p>broker.id&#x3D;2<br><img src="/../kafka/5.png" alt="图 5"></p>
+<p>broker.id&#x3D;1 </p>
+<p><img src="/../kafka/4.png" alt="图 4"></p>
+<p>broker.id&#x3D;2</p>
+<p><img src="/../kafka/5.png" alt="图 5"></p>
 <p>启停集群(在各个节点上启动)</p>
 <p>启动集群</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kafka-server-start.sh -daemon /export/server/kafka/config/server.properties</span><br></pre></td></tr></table></figure>
@@ -144,12 +146,13 @@
 <p>查看 broker 的动态配置可以按如下方式执行</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-configs.sh zookeeper node1: 2181 --describe --entity-type brokers --entity-name 0 --zookeeper node1:2181</span><br></pre></td></tr></table></figure>
 <p><img src="/../kafka/19.png" alt="图 19"></p>
-<h3 id="（3）IDEA案例"><a href="#（3）IDEA案例" class="headerlink" title="（3）IDEA案例"></a>（3）IDEA案例</h3><p>生产信息<br><img src="/../kafka/20.png" alt="图 20"><br><img src="/../kafka/21.png" alt="图 21"><br><img src="/../kafka/22.png" alt="图 22"></p>
+<h3 id="（3）IDEA案例"><a href="#（3）IDEA案例" class="headerlink" title="（3）IDEA案例"></a>（3）IDEA案例</h3><p>生产信息</p>
+<p><img src="/../kafka/20.png" alt="图 20"><br><img src="/../kafka/21.png" alt="图 21"><br><img src="/../kafka/22.png" alt="图 22"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/19/kafka/" data-id="clj2k5f290008l0vf5wzfajjc" data-title="Kafka" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/19/kafka/" data-id="clj3nft0x000d6kvfhxu9dqhe" data-title="Kafka" class="article-share-link">Share</a>
       
       
       
@@ -159,19 +162,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2023/06/19/zookeeper/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2023/06/19/sqoop/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Zookeeper
+          Sqoop
         
       </div>
     </a>
   
   
-    <a href="/2023/06/19/sqoop/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/06/19/flume/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Sqoop</div>
+      <div class="article-nav-title">Flume</div>
     </a>
   
 </nav>
@@ -193,23 +196,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Kafka环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/">Kafka命令行操作</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/">kafka-eagle各项功能</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/19/zookeeper/">Zookeeper</a>
           </li>
         
           <li>
-            <a href="/2023/06/19/kafka/">Kafka</a>
-          </li>
-        
-          <li>
             <a href="/2023/06/19/sqoop/">Sqoop</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/19/flume/">Flume</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
           </li>
         
       </ul>

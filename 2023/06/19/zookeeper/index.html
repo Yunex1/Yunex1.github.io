@@ -48,7 +48,7 @@
         <section id="main"><article id="post-zookeeper" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/06/19/zookeeper/" class="article-date">
-  <time class="dt-published" datetime="2023-06-19T07:49:49.572Z" itemprop="datePublished">2023-06-19</time>
+  <time class="dt-published" datetime="2023-06-19T07:54:42.541Z" itemprop="datePublished">2023-06-19</time>
 </a>
     
   </div>
@@ -71,14 +71,21 @@
 <p>检测集群时间是否同步</p>
 <p>检测防火墙是否关闭</p>
 <p>检测主机 ip映射有没有配置</p>
-<h2 id="二-解压zookeeper安装包"><a href="#二-解压zookeeper安装包" class="headerlink" title="二.解压zookeeper安装包"></a>二.解压zookeeper安装包</h2><p>在node1主机上，解压zookeeper的压缩包到&#x2F;export&#x2F;server路径下去，然后准备进行安装<br><img src="/../zookeeper/1.png" alt="图 1"></p>
-<p>创建软连接<br><img src="/../zookeeper/2.png" alt="图 2"></p>
-<h2 id="三-修改环境变量"><a href="#三-修改环境变量" class="headerlink" title="三.修改环境变量"></a>三.修改环境变量</h2><p>注意：三台虚拟机都要修改<br><img src="/../zookeeper/3.png" alt="图 3"><br><img src="/../zookeeper/4.png" alt="图 4"><br><img src="/../zookeeper/5.png" alt="图 5"></p>
-<h2 id="四-修改配置文件"><a href="#四-修改配置文件" class="headerlink" title="四.修改配置文件"></a>四.修改配置文件</h2><p>修改zookeeper配置文件<br><img src="/../zookeeper/6.png" alt="图 6"></p>
-<p>创建目录<br><img src="/../zookeeper/7.png" alt="图 7"></p>
+<h2 id="二-解压zookeeper安装包"><a href="#二-解压zookeeper安装包" class="headerlink" title="二.解压zookeeper安装包"></a>二.解压zookeeper安装包</h2><p>在node1主机上，解压zookeeper的压缩包到&#x2F;export&#x2F;server路径下去，然后准备进行安装</p>
+<p><img src="/../zookeeper/1.png" alt="图 1"></p>
+<p>创建软连接</p>
+<p><img src="/../zookeeper/2.png" alt="图 2"></p>
+<h2 id="三-修改环境变量"><a href="#三-修改环境变量" class="headerlink" title="三.修改环境变量"></a>三.修改环境变量</h2><p>注意：三台虚拟机都要修改</p>
+<p><img src="/../zookeeper/3.png" alt="图 3"><br><img src="/../zookeeper/4.png" alt="图 4"><br><img src="/../zookeeper/5.png" alt="图 5"></p>
+<h2 id="四-修改配置文件"><a href="#四-修改配置文件" class="headerlink" title="四.修改配置文件"></a>四.修改配置文件</h2><p>修改zookeeper配置文件</p>
+<p><img src="/../zookeeper/6.png" alt="图 6"></p>
+<p>创建目录</p>
+<p><img src="/../zookeeper/7.png" alt="图 7"></p>
 <p>修改 zoo.cfg</p>
-<p>增加下列内容<br><img src="/../zookeeper/8.png" alt="图 8"></p>
-<h2 id="五-添加myid配置"><a href="#五-添加myid配置" class="headerlink" title="五.添加myid配置"></a>五.添加myid配置</h2><p>在node1主机的&#x2F;export&#x2F;data&#x2F;zookeeper&#x2F;zkdatas&#x2F;这个路径下创建一个文件，文件名为myid ,文件内容为1<br><img src="/../zookeeper/9.png" alt="图 9"></p>
+<p>增加下列内容</p>
+<p><img src="/../zookeeper/8.png" alt="图 8"></p>
+<h2 id="五-添加myid配置"><a href="#五-添加myid配置" class="headerlink" title="五.添加myid配置"></a>五.添加myid配置</h2><p>在node1主机的&#x2F;export&#x2F;data&#x2F;zookeeper&#x2F;zkdatas&#x2F;这个路径下创建一个文件，文件名为myid ,文件内容为1</p>
+<p><img src="/../zookeeper/9.png" alt="图 9"></p>
 <h2 id="六-安装包分发并修改myid的值"><a href="#六-安装包分发并修改myid的值" class="headerlink" title="六.安装包分发并修改myid的值"></a>六.安装包分发并修改myid的值</h2><p>在node1主机上，将安装包分发到其他机器第一台机器上面执行以下两个命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /export/server/apache-zookeeper-3.7.0-bin/ root@node2:/export/server/</span><br><span class="line">scp -r /export/server/apache-zookeeper-3.7.0-bin/ root@node3:/export/server/</span><br></pre></td></tr></table></figure>
 <p><img src="/../zookeeper/10.png" alt="图 10"></p>
@@ -96,7 +103,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/06/19/zookeeper/" data-id="clj2k5f2a000al0vf4rk32l29" data-title="Zookeeper" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/19/zookeeper/" data-id="clj3nft0w000c6kvf1rs93shn" data-title="Zookeeper" class="article-share-link">Share</a>
       
       
       
@@ -106,10 +113,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          kafka-eagle各项功能
+        
+      </div>
+    </a>
   
-    <a href="/2023/06/19/kafka/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2023/06/19/sqoop/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Kafka</div>
+      <div class="article-nav-title">Sqoop</div>
     </a>
   
 </nav>
@@ -131,23 +147,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/20/Kafka%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Kafka环境配置</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/Kafka%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%93%8D%E4%BD%9C/">Kafka命令行操作</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/20/kafka-eagle%E5%90%84%E9%A1%B9%E5%8A%9F%E8%83%BD/">kafka-eagle各项功能</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/19/zookeeper/">Zookeeper</a>
           </li>
         
           <li>
-            <a href="/2023/06/19/kafka/">Kafka</a>
-          </li>
-        
-          <li>
             <a href="/2023/06/19/sqoop/">Sqoop</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/19/flume/">Flume</a>
-          </li>
-        
-          <li>
-            <a href="/2023/06/09/Spark(Yarn)/">Spark(Yarn)</a>
           </li>
         
       </ul>
